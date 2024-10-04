@@ -31,6 +31,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     objects = MyUserManager()
 
+    class Meta:
+        app_label = 'contas'
+
     def __str__(self):
         return self.email
 

@@ -84,16 +84,19 @@ PROJECT_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
 
+AUTH_USER_MODEL = "contas.MyUser"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'django_session_timeout.middleware.SessionTimeoutMiddleware', #Timeout
+    "corsheaders.middleware.CorsMiddleware", #Cors
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'requestlogs.middleware.RequestLogsMiddleware', #logs
+    'requestlogs.middleware.RequestLogsMiddleware', #Logs
 
 ]
 
@@ -156,9 +159,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-AUTH_USER_MODEL = 'contas.MyUser'
-
-
 
 REST_FRAMEWORK={
     'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
@@ -188,6 +188,20 @@ REQUESTLOGS = {
     'SECRETS': ['password', 'token'],
     'METHODS': ('PUT', 'PATCH', 'POST', 'DELETE'),
 }
+
+# timeout tempo de inatividate no sistema
+SESSION_EXPIRE_SECONDS = 3600 #1hora
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+#SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 60
+SESSION_TIMEOUT_REDIRECT = 'http://localhost:8000/contas/timeout'
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
