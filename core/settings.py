@@ -64,6 +64,7 @@ if not DEBUG:
 # Application definition
 
 DJANGO_APPS = [
+    'apps.contas',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,8 +79,8 @@ THIRD_APPS = [
 
 PROJECT_APPS = [
     'apps.base',
+    #'apps.contas',
     'apps.pages',
-    'apps.contas',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
