@@ -79,8 +79,9 @@ THIRD_APPS = [
 
 PROJECT_APPS = [
     'apps.base',
-    #'apps.contas',
+    'apps.config',
     'apps.pages',
+    'apps.perfil',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
@@ -226,6 +227,12 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+# STATICFILES_DIRS = [
+#     os.path.join(APPS_DIR, app_name, 'static')
+#     for app_name in os.listdir(APPS_DIR)
+#     if os.path.isdir(os.path.join(APPS_DIR, app_name)) and os.path.isdir(os.path.join(APPS_DIR, app_name, 'static'))
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

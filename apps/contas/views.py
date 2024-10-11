@@ -1,14 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from apps.contas.forms import CustomUserCreationForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import logout
+from apps.contas.forms import UserChangeForm, CustomUserCreationForm
+from django.shortcuts import get_object_or_404
+from apps.contas.models import MyUser
+from apps.contas.permissions import grupo_colaborador_required
+from perfil.models import Perfil
 
 
-
-
-#Rota de Timeout (Desconectado por inatividade)
+# Rota de Timeout (Desconectado por inatividade)
 def timeout_view(request):
     return render(request, 'contas/timeout.html')
 
@@ -17,7 +20,8 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-#Login
+
+# Login
 def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -46,6 +50,8 @@ def register_view(request):
             group = Group.objects.get(name='Usuário')
             usuario.groups.add(group)
 
+            Perfil.objects.create(usuario=usuario) #Criar instancia perfil do usuário
+
             messages.success(request, 'Registrado. Agora faça o login para começar!')
             return redirect('login')
         else:
@@ -54,3 +60,31 @@ def register_view(request):
                 1 caractere especial e no minimo 8 caracteres.')
     form = CustomUserCreationForm()
     return render(request, "contas/register.html", {"form": form})
+
+
+@login_required()
+def atualizar_meu_usuario(request):
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user,user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Seu perfil foi atualizado com sucesso!')
+            return redirect('home')
+    else:
+        form = UserChangeForm(instance=request.user,user=request.user)
+    return render(request, 'contas/user_update.html', {'form': form})
+
+
+@login_required()
+@grupo_colaborador_required(['Administrador','Colaborador'])
+def atualizar_usuario(request, username):
+    user = get_object_or_404(MyUser, username=username)
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=user, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'O perfil de usuário foi atualizado com sucesso!')
+            return redirect('home')
+    else:
+        form = UserChangeForm(instance=user,user=request.user)
+    return render(request, 'contas/user_update.html', {'form': form})
