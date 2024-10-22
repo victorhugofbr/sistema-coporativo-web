@@ -1,15 +1,37 @@
 {% extends 'base/base.html' %}
 {% block title %}Controle de Créditos{% endblock %}
 {% block content %}
-	<div class="container mt-3">
+{% load static %}
 
-		{% if user.is_authenticated %} # Adiciona
+
+	<!-- Se estiver logado -->
+
+	{% if user.is_authenticated %}
 		<h4>Olá {{user.first_name}} {{user.last_name}}, </h4>
 		<h6>Bem Vindo(a)</h6>
-		{% endif %}
+	{% else %}
 
-		<p>Pagina 1</p>
-		<p>Testando o context Global</p>
-		<p>{{social}}</p>
-	</div>
+	<!-- Hero -->
+		<div class="container-xxl hero-header" style="background-color:#00B98E;">
+			<div class="container">
+				<div class="row g-5 align-items-center">
+					<div class="col-lg-6 text-center text-lg-start">
+						<h1 class="my-5 display-3 fw-bold ls-tight">
+							Gestão segura <br />
+							<span style="color: #539F3F">para seus créditos tributários</span>
+						</h1>
+						<p class="text-white pb-3 animated zoomIn">Bem-vindo ao sistema de controle de créditos tributários da Rosa Neto Tributos! Aqui, você acessa de forma segura e centralizada todas as informações sobre seus créditos fiscais. Faça login para visualizar saldos, acompanhar movimentações e garantir a gestão eficiente de suas obrigações tributárias.</p>
+						<a href="" class="btn btn-outline-light rounded-pill border-2 py-3 px-5 animated slideInRight">Learn More</a>
+					</div>
+					<div class="col-lg-6 text-center text-lg-start">
+						<img class="img-fluid animated zoomIn" src="{% static 'base/images/hero.png' %}" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- About Section -->
+		{% include 'pages/about.html' %}
+
+	{% endif %}
 {% endblock %}

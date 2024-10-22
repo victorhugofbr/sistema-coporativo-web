@@ -48,7 +48,7 @@
         <div class="list-group gap-2">
 
             <!-- Botão Site-->
-            <button type="button" class="btn btn-warning active" aria-current="true" onclick="location.href='{% url 'home' %}'">
+            <button type="button" class="btn"  style="background-color: #539F3F; color:white;" aria-current="true" onclick="location.href='{% url 'home' %}'">
                 <i class="fas fa-arrow-left me-2"></i>Site
             </button>
 
@@ -60,7 +60,10 @@
             <button type="button" class="btn btn-light"><i class="fas fa-file-alt me-2"></i>Relatórios</button>
 
             <!-- Botão Usuários do Sistema -->
-            <button type="button" class="btn btn-light"><i class="fas fa-users me-2"></i>Usuários do Sistema</button>
+            {% if perms.contas.view_myuser %}
+            <button type="button" class="btn btn-light" onclick="location.href='{% url 'lista_usuarios' %}'">
+                <i class="fas fa-users me-2"></i>Usuários do Sistema</button>
+            {% endif %}
 
             <!-- Botão Configuração -->
             <button type="button" class="btn btn-light" onclick="location.href='{% url 'configuracao' %}'">
