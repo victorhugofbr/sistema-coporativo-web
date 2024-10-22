@@ -64,6 +64,7 @@ if not DEBUG:
 # Application definition
 
 DJANGO_APPS = [
+    'apps.contas',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,23 +76,29 @@ DJANGO_APPS = [
 THIRD_APPS = [
     "corsheaders",
 ]
+
 PROJECT_APPS = [
     'apps.base',
-    #'apps.pages',
+    'apps.config',
+    'apps.pages',
+    'apps.perfil',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + PROJECT_APPS
 
+AUTH_USER_MODEL = "contas.MyUser"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'django_session_timeout.middleware.SessionTimeoutMiddleware', #Timeout
+    "corsheaders.middleware.CorsMiddleware", #Cors
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'requestlogs.middleware.RequestLogsMiddleware', #logs
+    'requestlogs.middleware.RequestLogsMiddleware', #Logs
 
 ]
 
@@ -108,6 +115,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Apps
+                'base.context_processors.context_social',
             ],
         },
     },
@@ -152,6 +161,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 REST_FRAMEWORK={
     'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
 }
@@ -181,6 +191,20 @@ REQUESTLOGS = {
     'METHODS': ('PUT', 'PATCH', 'POST', 'DELETE'),
 }
 
+# timeout tempo de inatividate no sistema
+SESSION_EXPIRE_SECONDS = 3600 #1hora
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+#SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD = 60
+SESSION_TIMEOUT_REDIRECT = 'http://localhost:8000/contas/timeout'
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -204,6 +228,12 @@ STATIC_URL = '/static/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
+# STATICFILES_DIRS = [
+#     os.path.join(APPS_DIR, app_name, 'static')
+#     for app_name in os.listdir(APPS_DIR)
+#     if os.path.isdir(os.path.join(APPS_DIR, app_name)) and os.path.isdir(os.path.join(APPS_DIR, app_name, 'static'))
+# ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -218,3 +248,14 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+# --- Messages --- #
+from django.contrib.messages import constants
+
+MESSAGE_TAGS = {
+	constants.ERROR: 'alert-danger',
+	constants.WARNING: 'alert-warning',
+	constants.DEBUG: 'alert-danger',
+	constants.SUCCESS: 'alert-success',
+	constants.INFO: 'alert-info',
+}

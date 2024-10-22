@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% block title %}Autenticação{% endblock %}
+{% block content %}
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row g-lg-5 py-5">
+        <div class="col-lg-7">
+            <h1 class="my-5 display-3 fw-bold ls-tight">
+            Gestão segura <br />
+            <span style="color: #539F3F">para seus créditos tributários</span>
+          </h1>
+          <p>
+            Bem-vindo ao sistema de controle de créditos tributários da Rosa Neto Tributos! Aqui, você acessa de forma segura e centralizada todas as informações sobre seus créditos fiscais. Faça login para visualizar saldos, acompanhar movimentações e garantir a gestão eficiente de suas obrigações tributárias.
+          </p>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5 p-4 p-md-5 rounded-4 bg-light shadow-sm">
+            {% include 'components/message.html' %}
+            {% block content_auth %}{% endblock %}
+            <div class="text-muted py-4">
+                <small>Copyright© 2024 Victor Hugo</small>
+            </div>
+        </div>
+    </div>
+</div> 
+{% endblock %}

@@ -1,0 +1,79 @@
+@import url('global.css');
+
+
+.sidebar {
+    position: fixed;
+    height: 100%;
+    padding: 10px 15px 0;
+    z-index: 0;
+}
+
+.sidebar button {
+    height: 60px;
+}
+
+.bloco {
+    margin: 70px 0px 70px 0px;
+}
+
+.pagination .page-link {
+    background: rgb(138, 138, 138);
+    color: white;
+    border: none;
+}
+
+@media (min-width: 968px) {
+    .bloco {
+        padding-left: 250px;
+    }
+
+    /* .collapse:not(.show) {
+        display: flex;
+    } */
+}
+
+@media (max-width: 968px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .navbar-brand {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+
+.navbar {
+    margin: 0; /* Remove margens */
+    padding: 0; /* Remove preenchimento */
+    border-radius: 0px;
+}
+
+/* Links sempre brancos */
+.navbar .nav-link {
+    color: white !important;   /* Sempre branco */
+    text-decoration: none;     /* Remove sublinhado */
+}
+
+/* Efeito ao passar o mouse (hover) */
+.navbar .nav-link:hover {
+    color: lightgray !important;  /* Muda para cinza claro ao passar o mouse */
+}
+
+
+p {
+ text-align: justify;
+ color: black;
+}
+
+.text-reset {
+    font-size: 14px; /* Ajuste o valor para o tamanho desejado */
+}
+
+body{
+    background-color: white;
+}
